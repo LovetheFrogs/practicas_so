@@ -53,79 +53,37 @@ int head(int N) {
             current = current -> next;
         }  
     }
+
     */
     
     /* Liberamos memoria y apuntamos current de nuevo a head para recorrer la lista de nuevo */
     free(aux);
-    current = head;
 
     /* Iteramos en la lista hasta llegar al final */
-    while (current -> next != NULL) {
+    while (head != NULL) {
         /* Escribimos por pantalla el valor de current */
-        fputs(current -> value, stdout);
+        fputs(head-> value, stdout);
 
-        /* Pasamos al siguiente elemento */
-        current = current -> next;
+        /* Ponemos current apuntando a head */
+        current = head;
 
-        /* Liberamos el espacio ocupado por el elemento anterior */
-        free(current -> prev);
+        /* Pasamos head al siguiente elemento */
+        head = head -> next;
+
+        /* Liberamos el puntero current */
+        free(current);
     }
+
+    /* Liberamos el puntero head */
+    free(head);
 
     return 0;
 }
 
 int tail(int N) {
-    char text[100];
-    int i = 0;
-    char *buffer = NULL;
-    size_t bufsize;
-
-    text[i] = getline(&buffer, &bufsize, stdin);
-
-    while (text[i] != -1) {
-        i++;
-        text[i] == getline(&buffer, &bufsize, stdin);
-    }
-
-    for (int j = i - 1; j <= i - N - 1; j--) {
-        printf("%s\n", text[j]);
-    }
-
-    return 0;
+    /* Falta implementar tail (para ti ines uwu) */
 }
 
 int longlines(int N) {
-    char text[100];
-    int i = 0;
-    char *buffer = NULL;
-    size_t bufsize;
-
-    text[i] = getline(&buffer, &bufsize, stdin);
-
-    while (text[i] != -1) {
-        i++;
-        text[i] == getline(&buffer, &bufsize, stdin);
-    }
-
-    return 0;
-}
-
-static void sort(int lenght, char *ptr, int n){
-    int i, j;
-    char *t;
-
-    for (i = 0; i < lenght; i++) {
-        for (j = i + 1; j < lenght; j++) {
-            if (strlen(*(ptr + j)) < strlen(*(ptr + i))) {
-                strcpy(t, *(ptr + i));
-                strcpy(*(ptr + i), *(ptr + j));
-                strcpy(*(ptr + j) , t);
-            }
-        }
-    }
-
-    for (i = 0; i < n; i++)
-    {
-        printf("%s\n", *(ptr + i));
-    }
+    /* TODO longlines implementation */
 }
