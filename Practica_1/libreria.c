@@ -14,6 +14,48 @@ typedef struct node
         struct node * next;                 /* Puntero al nodo siguiente */
 } node_t;
 
+/* function to swap data of two nodes a and b*/
+void swap(node_t * a, node_t * b) 
+{ 
+    char temp[BUFFERSIZE];
+    strcpy(temp, a -> value); 
+    strcpy(a -> value, b -> value); 
+    strcpy(b -> value, temp); 
+} 
+
+void bubbleSort(node_t * start) 
+{
+    int swapped; 
+    
+    node_t * ptr1;
+    ptr1 = (node_t *) malloc(sizeof(node_t));
+
+    node_t * lptr;
+    lptr = (node_t *) malloc(sizeof(node_t));
+  
+    /* Checking for empty list */
+    if (start == NULL) 
+        return; 
+  
+    do
+    { 
+        swapped = 0; 
+        ptr1 = start; 
+  
+        while (ptr1 -> next != lptr) 
+        { 
+            if (strlen(ptr1 -> value) < strlen(ptr1 -> next -> value)) 
+            { 
+                swap(ptr1, ptr1 -> next); 
+                swapped = 1; 
+            } 
+            ptr1 = ptr1 -> next; 
+        } 
+        lptr = ptr1; 
+    } 
+    while (swapped); 
+} 
+
 /* Función head(N) */
 int head(int N) {
     /* Creamos un nodo head como inicio de la lista, reservamos memoria para él y apuntamos prev y next a NULL */
@@ -85,5 +127,38 @@ int tail(int N) {
 }
 
 int longlines(int N) {
-    /* TODO longlines implementation */
+    /* Creamos un nodo head como inicio de la lista, reservamos memoria para él y apuntamos prev y next a NULL */
+    node_t * head = NULL;
+    head = (node_t *) malloc(sizeof(node_t));
+    head -> prev = NULL;
+    head -> next = NULL;
+
+    /* Creamos un nodo auxiliar usado para añadir elementos */
+    node_t * aux;
+
+    /* Creamos un nodo current y lo apuntamos a head (inicio de la lista) */
+    node_t * current = head;
+
+    while (fgets(current -> value, BUFFERSIZE, stdin) != NULL) {
+        aux = (node_t *) malloc(sizeof(node_t));
+        aux -> prev = current;
+        aux -> next = NULL;
+        current -> next = aux;
+        current = current -> next;
+    }
+
+    free(aux);
+    bubbleSort(head);
+
+    for (int i = 0; i <= N; i++) {
+        fputs(head -> value, stdout);
+        /* Ponemos current apuntando a head */
+        current = head;
+
+        /* Pasamos head al siguiente elemento */
+        head = head -> next;
+
+        /* Liberamos el puntero current */
+        free(current);
+    }
 }
