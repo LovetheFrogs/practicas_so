@@ -36,7 +36,20 @@ static bool isFeasible(char check[BUFFERSIZE], node_t * list) {
 static node_t * insert(char val[BUFFERSIZE], node_t * list, int * len, int max) {
     /* Se definen dos nodos, usados para ver donde insertaremos el valor (el anterior a la posición nueva y la posición siguiente)*/
     node_t * curr = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!curr) return 2;
+
     node_t * prv = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!prv) return 2;
+
+    /* Creamos un nodo nuevo, este será el que deberemos insertar */
+    node_t * newNode = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!newNode) return 2;
 
     /* Apuntamos curr al inicio de la lista, y prv a su anterior (nulo) */
     curr = list;
@@ -60,8 +73,7 @@ static node_t * insert(char val[BUFFERSIZE], node_t * list, int * len, int max) 
         else break;
     }
 
-    /* Creamos un nodo nuevo, este será el que deberemos insertar. Ponemos prev y next a NULL y su valor al deseado */
-    node_t * newNode = (node_t *) malloc(sizeof(node_t));
+    /* Damos los valores deseados al nodo a insertar */
     strcpy(newNode -> value, val);
     newNode -> prev = prv;
     newNode -> next = curr;
@@ -107,23 +119,37 @@ static node_t * insert(char val[BUFFERSIZE], node_t * list, int * len, int max) 
 
 /* Función head(N) */
 int head(int N) {
+    /* Se comprueba que N sea válido */
+    check_errors(N);
+    
     /* Creamos un nodo head como inicio de la lista, reservamos memoria para él y apuntamos prev y next a NULL */
-    node_t * head = NULL;
+    node_t * head;
     head = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!head) return 2;
+
     head -> prev = NULL;
     head -> next = NULL;
 
     /* Creamos un nodo auxiliar usado para añadir elementos */
     node_t * aux;
 
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!aux) return 2;
+
     /* Creamos un nodo current y lo apuntamos a head (inicio de la lista) */
-    node_t * current = head;
+    node_t * current = (node_t *) malloc(sizeof(node_t));
+    
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!current) return 2;
+    
+    head;
 
     /* Iteramos tantas veces como líneas queramos leer */
     for (int i = 0; i <= N; i++) {
         /* Si la linea leida no es NULL, se crea un nodo aux, se enlaza a la lista y se mueve current al nuevo nodo */
         if (fgets(current -> value, BUFFERSIZE, stdin) != NULL) {     /* La sentencia fgets(current -> value...) pone el valor del nodo apuntado por current a la línea leida */
-            aux = (node_t *) malloc(sizeof(node_t));
             aux -> prev = current;
             aux -> next = NULL;
             current -> next = aux;
@@ -173,18 +199,31 @@ int head(int N) {
 }
 
 int tail(int N) {
+    /* Se comprueba que N sea válido */
+    check_errors(N);
+
     /* Creamos un nodo head como inicio de la lista, reservamos memoria para él y apuntamos prev y next a NULL */
-    node_t * head = NULL;
+    node_t * head;
     head = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!head) return 2;
+
     head -> prev = NULL;
     head -> next = NULL; 
     int i = 0; /* numero de línea */
 
     /* Creamos un nodo auxiliar usado para añadir elementos */
-    node_t * aux;
+    node_t * aux = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!aux) return 2;
 
     /*Creamos un nodo auxiliar (llamado first) utilizado para almacenar el primer nodo*/
-    node_t * first;
+    node_t * first = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!first) return 2;
 
     /* Creamos un nodo current y lo apuntamos a head (inicio de la lista) */
     node_t * current = head;
@@ -199,8 +238,6 @@ int tail(int N) {
             if(i == 0){
                 first = current;
             }
-
-            aux = (node_t *) malloc(sizeof(node_t));
             aux -> prev = current;
             aux -> next = NULL;
             current -> next = aux;
@@ -210,7 +247,6 @@ int tail(int N) {
         /* Si hemos sobrepasado N, añadimos un nuevo nodo pero ponemos como primero el siguiente para poder borrar la línea almacenada*/
         /* y a así solo guardar las N últimas líneas en memoria*/
         } else {
-            aux = (node_t *) malloc(sizeof(node_t));
             aux -> prev = current;
             aux -> next = NULL;
             current -> next = aux;
@@ -249,14 +285,28 @@ int tail(int N) {
 
 /* Función longlines(N)*/
 int longlines(int N) {   
+    /* Se comprueba que N sea válido */
+    check_errors(N);
+
     /* Declaramos el inicio de la lista que usaremos para guardar las sentencias e inicializamos sus campos */
     node_t * head = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!head) return 2;
+
     head -> prev = NULL;
     head -> next = NULL;
     
     /* Declaramos dos variables que usaremos a la hora de recorrer la lista, tail (final de la lista) y aux (usado para borrar la lista tras su uso) */
     node_t * aux = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!aux) return 2;
+
     node_t * tail = (node_t *) malloc(sizeof(node_t));
+
+    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
+    if (!tail) return 2;
 
     /* Declaramos un string auxiliar, ya que no siempre insertaremos un string en la lista */
     char aux[BUFFERSIZE];
