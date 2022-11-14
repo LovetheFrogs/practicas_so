@@ -18,9 +18,9 @@ int main(int argc, char *argv[]) {
             j = (int) argv[i];
             head(5);
             longlines(5);
-            /*tail(j);
+            tail(j);
             longlines(j);
-            printf("Test case for n = %d\n completed", j);*/
+            printf("Test case for n = %d\n completed", j);
         }
 
         return 0;
