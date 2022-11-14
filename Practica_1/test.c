@@ -17,6 +17,7 @@ int main(int argc, char *argv[]) {
         for (int i = 2; i < (int) argv[1] + 2; i++) {
             j = (int) argv[i];
             head(5);
+            longlines(5);
             /*tail(j);
             longlines(j);
             printf("Test case for n = %d\n completed", j);*/
