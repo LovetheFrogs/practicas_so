@@ -81,7 +81,78 @@ int head(int N) {
 }
 
 int tail(int N) {
-    /* Falta implementar tail (para ti ines uwu) */
+    /* Creamos un nodo head como inicio de la lista, reservamos memoria para él y apuntamos prev y next a NULL */
+    node_t * head = NULL;
+    head = (node_t *) malloc(sizeof(node_t));
+    head -> prev = NULL;
+    head -> next = NULL; 
+    int i = 0; /* numero de línea */
+
+    /* Creamos un nodo auxiliar usado para añadir elementos */
+    node_t * aux;
+
+    /*Creamos un nodo auxiliar (llamado first) utilizado para almacenar el primer nodo*/
+    node_t * first;
+
+    /* Creamos un nodo current y lo apuntamos a head (inicio de la lista) */
+    node_t * current = head;
+
+    /* Leemos la entrada */
+    while (fgets(current -> value, BUFFERSIZE, stdin) != NULL) {
+
+        /* Si el numero de líneas es menor o igual que N, añadimos un nodo nuevo */
+        if (i <= N) {
+
+            /* Guardamos el primer nodo */
+            if(i == 0){
+                first = current;
+            }
+
+            aux = (node_t *) malloc(sizeof(node_t));
+            aux -> prev = current;
+            aux -> next = NULL;
+            current -> next = aux;
+            current = current -> next;
+            i++;
+
+        /* Si hemos sobrepasado N, añadimos un nuevo nodo pero ponemos como primero el siguiente para poder borrar la línea almacenada*/
+        /* y a así solo guardar las N últimas líneas en memoria*/
+        } else {
+            aux = (node_t *) malloc(sizeof(node_t));
+            aux -> prev = current;
+            aux -> next = NULL;
+            current -> next = aux;
+            current = current -> next;
+            first = first -> next;
+            free(first -> prev);
+            first -> prev = NULL;
+        }
+    }
+
+    /* Liberamos memoria y apuntamos current de nuevo a head para recorrer la lista de nuevo */
+    free(aux);
+
+    /*Iteramos la lista */
+    while (head) {
+        /* Escribimos por pantalla el valor actual */
+        fputs(head-> value, stdout);
+
+        /* Ponemos current apuntando a head */
+        current = head;
+
+        /* Pasamos head al siguiente elemento */
+        head = head -> next;
+
+        /* Liberamos el puntero current */
+        free(current);
+    }
+
+    /* Liberamos el puntero head */
+    free(head);
+
+    /* Devolvemos 0, es decir, función ejecutada con éxito */
+    return 0;
+
 }
 
 int longlines(int N) {
