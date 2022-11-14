@@ -7,6 +7,15 @@
 /* Definimos una constante BUFFERSIZE (tamaño máximo de una línea) */
 #define BUFFERSIZE 1024
 
+/* La función check_errors comprobará errores en el argumento N. Este deberá cumplir los siguientes requisitos: 
+        + N deberá ser positivo 
+   Si no se cumplen eestas condiciones, check_errors devolverá un código de error (1).
+   En caso contrario, la función devolverá el valor 0.
+   La función será static ya que solo la podrán usar los métodos de librería.c y devolverá un int (el código de error) */
+static int check_errors(int N) {
+    if (N < 0) return 1;
+}
+
 /* Definimos el nodo de una lista doblemente enlazada */
 typedef struct node 
 {
