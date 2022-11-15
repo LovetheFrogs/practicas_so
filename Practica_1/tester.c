@@ -113,93 +113,79 @@ static node_t * insert(char val[BUFFERSIZE], node_t * list, int * len, int max) 
     return list;
 }
 
-/* Función head(N) */
-int head(int N) {
+int longlines(int N) {   
     /* Se comprueba que N sea válido */
     check_errors(N);
-    
-    /* Creamos un nodo head como inicio de la lista, reservamos memoria para él y apuntamos prev y next a NULL */
-    node_t * head;
-    head = (node_t *) malloc(sizeof(node_t));
+
+    FILE * fp = fopen("testtext.txt", "r");
+
+    /* Declaramos el inicio de la lista que usaremos para guardar las sentencias e inicializamos sus campos */
+    node_t * head = (node_t *) malloc(sizeof(node_t));
 
     /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
     if (!head) return 2;
 
     head -> prev = NULL;
     head -> next = NULL;
-
-    /* Creamos un nodo auxiliar usado para añadir elementos */
+    
+    /* Declaramos dos variables que usaremos a la hora de recorrer la lista, tail (final de la lista) y aux (usado para borrar la lista tras su uso) */
     node_t * aux = (node_t *) malloc(sizeof(node_t));
 
     /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
     if (!aux) return 2;
 
-    /* Creamos un nodo current y lo apuntamos a head (inicio de la lista) */
-    node_t * current = (node_t *) malloc(sizeof(node_t));
-    
+    node_t * tail = (node_t *) malloc(sizeof(node_t));
+
     /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
-    if (!current) return 2;
-    
-    current = head;
+    if (!tail) return 2;
 
-    /* Iteramos tantas veces como líneas queramos leer */
-    for (int i = 0; i < N; i++) {
-        /* Si la linea leida no es NULL, se crea un nodo aux, se enlaza a la lista y se mueve current al nuevo nodo */
-        if (fgets(current -> value, BUFFERSIZE, stdin) != NULL) {     /* La sentencia fgets(current -> value...) pone el valor del nodo apuntado por current a la línea leida */
-            aux = (node_t *) malloc(sizeof(node_t));
+    /* Declaramos un string auxiliar, ya que no siempre insertaremos un string en la lista */
+    char str[BUFFERSIZE];
 
-            /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
-            if (!aux) return 2;
+    /* Declaramos el tamaño de la lista */
+    int size = 0;
 
-            if (i == N - 1) break;
-
-            aux -> prev = current;
-            aux -> next = NULL;
-            current -> next = aux;
-            current = current -> next;  
-        }
-        /* Si se ha llegado al final antes de que i > n, se sale del bucle */
-        else break;
+    /* Comprobamos todas las lineas del archivo */
+    while (fgets(str, BUFFERSIZE, fp) != NULL) {
+        /* Si son candidatas de inserción, llamamos al método insert() con el tamaño máximo, el tamaño actual, la lista y el elemento */
+        if ((isFeasible(str, head)) || size != N) head = insert(str, head, &size, N);
+        
+        /* Como insert devuelve NULL en caso de error, si head es NULL en este punto, se sale con código de error 2 */
+        if (!head) return 2;
     }
 
-    /* En caso de necesitar leer todo stdin, cambiar el FOR por este WHILE
+    /* Apuntamos tail a la cabecera de la lista para recorrerla y averiguar dónde esta el final */
+    tail = head;
 
-    while (fgets(current -> value, BUFFERSIZE, stdin) != NULL) {
-        if (i <= N) {
-            aux = (node_t *) malloc(sizeof(node_t));
-            aux -> prev = current;
-            aux -> next = NULL;
-            current -> next = aux;
-            current = current -> next;
-        }  
+    /* Recorremos la lista hasta llegar al final. Esta será la nueva ubicación a la que apuntará tail */
+    while (tail -> next) {
+        tail = tail -> next;
     }
 
-    */
-    
-    /* Liberamos memoria y apuntamos current de nuevo a head para recorrer la lista de nuevo */
-    free(aux);
-
-    /* Iteramos en la lista hasta llegar al final */
-    while (head) {
+    /* Recorremos la lista desde el final hasta el inicio */
+    while (tail) {
         /* Escribimos por pantalla el valor actual */
-        fputs(head-> value, stdout);
+        fputs(tail -> value, stdout);
+        
+        /* Apuntamos aux a tail */
+        aux = tail;
 
-        /* Ponemos current apuntando a head */
-        current = head;
+        /* Avanzamos tail a la posición anterior */
+        tail = tail -> prev;
 
-        /* Pasamos head al siguiente elemento */
-        head = head -> next;
-
-        /* Liberamos el puntero current */
-        free(current);
+        /* Borramos aux (anterior posición a la que apuntaba tail) */
+        free(aux);
     }
 
-    /* Liberamos el puntero head */
+    /* Liberamos las variables tail y head */
+    tail, head = NULL;
+    free(tail);
     free(head);
 
     /* Devolvemos 0, es decir, función ejecutada con éxito */
     return 0;
 }
+
 
 int tail(int N) {
     /* Se comprueba que N sea válido */
@@ -273,74 +259,19 @@ int tail(int N) {
     return 0;
 }
 
-/* Función longlines(N) */
-int longlines(int N) {   
-    /* Se comprueba que N sea válido */
-    check_errors(N);
-
-    /* Declaramos el inicio de la lista que usaremos para guardar las sentencias e inicializamos sus campos */
-    node_t * head = (node_t *) malloc(sizeof(node_t));
-
-    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
-    if (!head) return 2;
-
-    head -> prev = NULL;
-    head -> next = NULL;
-    
-    /* Declaramos dos variables que usaremos a la hora de recorrer la lista, tail (final de la lista) y aux (usado para borrar la lista tras su uso) */
-    node_t * aux = (node_t *) malloc(sizeof(node_t));
-
-    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
-    if (!aux) return 2;
-
-    node_t * tail = (node_t *) malloc(sizeof(node_t));
-
-    /* Comprobamos que malloc se haya realizado correctamente, si no, se devolverá el código de error 2 */
-    if (!tail) return 2;
-
-    /* Declaramos un string auxiliar, ya que no siempre insertaremos un string en la lista */
-    char str[BUFFERSIZE];
-
-    /* Declaramos el tamaño de la lista */
-    int size = 0;
-
-    /* Comprobamos todas las lineas del archivo */
-    while (fgets(str, BUFFERSIZE, stdin) != NULL) {
-        /* Si son candidatas de inserción, llamamos al método insert() con el tamaño máximo, el tamaño actual, la lista y el elemento */
-        if ((isFeasible(str, head)) || size != N) head = insert(str, head, &size, N);
-        
-        /* Como insert devuelve NULL en caso de error, si head es NULL en este punto, se sale con código de error 2 */
-        if (!head) return 2;
-    }
-
-    /* Apuntamos tail a la cabecera de la lista para recorrerla y averiguar dónde esta el final */
-    tail = head;
-
-    /* Recorremos la lista hasta llegar al final. Esta será la nueva ubicación a la que apuntará tail */
-    while (tail -> next) {
-        tail = tail -> next;
-    }
-
-    /* Recorremos la lista desde el final hasta el inicio */
-    while (tail) {
-        /* Escribimos por pantalla el valor actual */
-        fputs(tail -> value, stdout);
-        
-        /* Apuntamos aux a tail */
-        aux = tail;
-
-        /* Avanzamos tail a la posición anterior */
-        tail = tail -> prev;
-
-        /* Borramos aux (anterior posición a la que apuntaba tail) */
-        free(aux);
-    }
-
-    /* Liberamos las variables tail y head */
-    tail, head = NULL;
-    free(tail);
-    free(head);
-
-    /* Devolvemos 0, es decir, función ejecutada con éxito */
-    return 0;
+int main() {
+    tail(3);
 }
+
+
+/* Hola me llamo manolo
+uwu
+viva castillita :)
+fuck caceres
+bad gyal primera de espania
+si
+seniora pa cuando enseniarnos a programar c????
+lorem ipsum dolor
+platanos, huevos, leche, pan
+me gusta python mas
+castilla la mancha > emos */

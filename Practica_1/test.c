@@ -13,15 +13,12 @@ int main(int argc, char *argv[]) {
     }
 
     if (argc >= 3) {
-        int j;
-        for (int i = 2; i < (int) argv[1] + 2; i++) {
-            j = (int) argv[i];
-            head(5);
-            longlines(5);
-            tail(j);
-            longlines(j);
-            printf("Test case for n = %d\n completed", j);
-        }
+        
+            head(3);
+            tail(3);
+            longlines(3);
+            
+        
 
         return 0;
     }
