@@ -116,7 +116,7 @@ static node_t * insert(char val[BUFFERSIZE], node_t * list, int * len, int max) 
 /* Función head(N) */
 int head(int N) {
     /* Se comprueba que N sea válido */
-    check_errors(N);
+    if (check_errors(N) == 1) return 1;
     
     /* Creamos un nodo head como inicio de la lista, reservamos memoria para él y apuntamos prev y next a NULL */
     node_t * head;
@@ -203,7 +203,7 @@ int head(int N) {
 
 int tail(int N) {
     /* Se comprueba que N sea válido */
-    check_errors(N);
+    if (check_errors(N) == 1) return 1;
 
     FILE *fp = fopen("testtext.txt", "r");
 
@@ -276,7 +276,7 @@ int tail(int N) {
 /* Función longlines(N) */
 int longlines(int N) {   
     /* Se comprueba que N sea válido */
-    check_errors(N);
+    if (check_errors(N) == 1) return 1;
 
     /* Declaramos el inicio de la lista que usaremos para guardar las sentencias e inicializamos sus campos */
     node_t * head = (node_t *) malloc(sizeof(node_t));
