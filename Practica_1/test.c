@@ -5,10 +5,7 @@
 
 int main(int argc, char *argv[]) {
     int N;
-    char h[] = "head";
-    char t[] = "tail";
-    char ll[] = "longlines";
-    
+
     if (argc == 1) {
         fprintf(stderr, "Wrong use of function. Should be used as %s value", argv[0]);
         return 1;
@@ -25,6 +22,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (argc == 3) {
+        /* Transformamos el valor de N a un entero */
         N = atoi(argv[2]);
 
         if (N <= 0) {
@@ -32,9 +30,11 @@ int main(int argc, char *argv[]) {
             return 4;
         }
 
-        if (strcmp(argv[1], h) == 0) head(N);
-        else if (strcmp(argv[1], t) == 0) tail(N);
-        else if (strcmp(argv[1], ll) == 0) longlines(N);
+	/* Dependiendo del valor de argv[1] especificado por el usuario al llamar a ./test,
+	se ejecutará la función deseada, con el valor de N especificado */
+        if (strcmp(argv[1], "head") == 0) head(N);
+        else if (strcmp(argv[1], "tail") == 0) tail(N);
+        else if (strcmp(argv[1], "longlines") == 0) longlines(N);
         else {
             fprintf(stderr, "Function not called, arg1 is not head, tail or longlines");
             return 5;
