@@ -260,7 +260,7 @@ int tail(int N) {
 }
 
 int main() {
-    tail(3);
+    longlines(1);
 }
 
 
