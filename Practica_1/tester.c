@@ -275,3 +275,36 @@ lorem ipsum dolor
 platanos, huevos, leche, pan
 me gusta python mas
 castilla la mancha > emos */
+
+
+
+/*
+if (argc == 1) {
+        fprintf(stderr, "Usage: %s number_of_n, n1, n2...\n", argv[0]);
+        return 1;
+    }
+
+    if (argc == 2) {
+        fprintf(stderr, "Usage: %s number_of_n, n1, n2...\n", argv[0]);
+        return 2;
+    }
+
+    if (argc >= 3) {
+        j = atoi(argv[1]);
+        for (int i = 0; i == j; i++) {
+            aux = atoi(argv[1 + i]);
+            printf("Testing case %d of %d total cases.", j, i);
+            printf("Testing head method for N = %d", aux);
+
+            head(atoi(argv[3 + i]));
+
+            printf("Testing tail method for N = %d", aux);
+            tail(atoi(argv[3 + i]));
+
+            printf("Testing longlines method for N = %d", aux);
+            longlines(atoi(argv[3 + i]));
+        }
+
+        return 0;
+    }
+*/

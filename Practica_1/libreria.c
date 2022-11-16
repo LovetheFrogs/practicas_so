@@ -205,8 +205,6 @@ int tail(int N) {
     /* Se comprueba que N sea válido */
     if (check_errors(N) == 1) return 1;
 
-    FILE *fp = fopen("testtext.txt", "r");
-
     /* Creamos un nodo head como inicio de la lista, reservamos memoria para él y apuntamos prev y next a NULL */
     node_t * first;
     first = (node_t *) malloc(sizeof(node_t));
@@ -228,7 +226,7 @@ int tail(int N) {
     node_t * current = first;
 
     /* Leemos la entrada */
-    while (fgets(current -> value, BUFFERSIZE, fp) != NULL) {
+    while (fgets(current -> value, BUFFERSIZE, stdin) != NULL) {
 
         aux = (node_t *) malloc(sizeof(node_t));
 
@@ -254,7 +252,7 @@ int tail(int N) {
     }
 
     /*Iteramos la lista */
-    while (first -> next) {
+    while (first) {
         /* Escribimos por pantalla el valor actual */
         fputs(first-> value, stdout);
 
